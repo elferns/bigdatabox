@@ -1,0 +1,1 @@
+<li><a href="{!! url('admin/pages') !!}" title=""><i class="fa fa-file fa-2x"></i></a></li>
