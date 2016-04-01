@@ -38,6 +38,12 @@ body {
     .mobile-sidebar {
         display: block;
     }  /* show it on small screens */
+
+
+    .list-dtable > tbody > tr > td:nth-child(n+2):not(:last-child),
+    .list-dtable > thead > tr > td:nth-child(n+2):not(:last-child){
+       display:none;
+    }
 }
 
 
@@ -59,6 +65,7 @@ body {
     .mobile-sidebar {
         display: none;
     }  /* show it on small screens */
+
 
 }
 
@@ -126,4 +133,47 @@ body {
 .save-btn {
     width: 20%;
     display: block;
+}
+
+.list-dtable > thead > tr > td {
+    background-color: #167F92;
+}
+
+.list-dtable > tbody > tr:nth-child(even) {background: #D9E4E6}
+.list-dtable > tbody > tr:nth-child(odd) {background: #FFF}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    background-color: #167F92;
+    border-color: #167F92;
+}
+
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+    color: #167F92;
+    background-color: #D9E4E6;
+}
+
+.list-dcenter {
+    text-align: center;
+}
+
+.dialogdemoBasicUsage #popupContainer {
+    position: relative; }
+
+.dialogdemoBasicUsage .footer {
+    width: 100%;
+    text-align: center;
+    margin-left: 20px; }
+
+.dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+    font-size: 0.8em;
+    margin-top: 50px; }
+
+.dialogdemoBasicUsage button {
+    width: 200px; }
+
+.dialogdemoBasicUsage div#status {
+    color: #c60008; }
+
+.fa-pencil {
+    cursor: pointer;
 }

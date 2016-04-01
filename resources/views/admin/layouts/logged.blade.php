@@ -8,11 +8,12 @@
     <title>@yield('title') | Admin</title>
 
     <!-- Fonts -->
-    <link href="../css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+    <link href="/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
 
     <!-- Bootstrap -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/angular-material.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -21,7 +22,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link href="../css/admin/style.css" rel="stylesheet">
+    <link href="/css/admin/style.css" rel="stylesheet">
 </head>
 <body>
 
@@ -29,17 +30,27 @@
 @include('admin.layouts.menu')
 <!--Top Nav & left navi starts-->
 
-<div class="col-sm-10 col-sm-offset-2 col-md-11 col-md-offset-1 main">
+<div class="col-sm-10 col-sm-offset-2 col-md-11 col-md-offset-1 main" ng-app="adminApp">
     @yield('content')
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="../js/jquery-1.11.3.min.js"></script>
+<script src="/js/jquery-1.11.3.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/angular.min.js"></script>
-<script src="../vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
-<script src="../js/admin/admin.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Angular Material requires Angular.js Libraries -->
+<script src="/js/angularjs/angular.min.js"></script>
+<script src="/js/angularjs/angular-animate.min.js"></script>
+<script src="/js/angularjs/angular-aria.min.js"></script>
+<script src="/js/angularjs/angular-messages.min.js"></script>
+<script src="/js/angularjs/angular-route.min.js"></script>
+
+<!-- Angular Material Library -->
+<script src="/js/angularjs/angular-material.min.js"></script>
+
+<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+<script src="/js/admin/admin.js"></script>
 
 </body>
 </html>

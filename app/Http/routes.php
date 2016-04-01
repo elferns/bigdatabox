@@ -20,4 +20,8 @@ Route::auth();
 Route::get('/admin/dashboard', 'admin\HomeController@index');
 Route::get('/admin/pages', 'admin\PageController@index');
 Route::post('/admin/pages/store', 'admin\PageController@store');
+Route::delete('/api/destroy/{id}', 'admin\PageController@api_destroy');
+Route::get('/api/page_details/{id}', 'admin\PageController@api_page');
+
+
 //Route::get('/home', 'HomeController@index');
