@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends Model
+class Banner extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,6 +12,6 @@ class Page extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'title', 'slug', 'content', 'status', 'seo_keywords', 'seo_description'
+        'name', 'caption', 'image_name',
     ];
 }

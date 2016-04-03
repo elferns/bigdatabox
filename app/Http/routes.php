@@ -17,11 +17,16 @@ Route::get('/', function () {
 
 Route::auth();
 
+/** Routes for dashboard */
 Route::get('/admin/dashboard', 'admin\HomeController@index');
+
+/** Routes for pages */
 Route::get('/admin/pages', 'admin\PageController@index');
 Route::post('/admin/pages/store', 'admin\PageController@store');
 Route::delete('/api/destroy/{id}', 'admin\PageController@api_destroy');
 Route::get('/api/page_details/{id}', 'admin\PageController@api_page');
 
+/** Routes for banners */
+Route::get('/admin/banners', 'admin\BannerController@index');
+Route::post('/admin/banners/store', 'admin\BannerController@store');
 
-//Route::get('/home', 'HomeController@index');

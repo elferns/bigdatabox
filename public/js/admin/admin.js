@@ -19,6 +19,23 @@ app.controller('pageCtrl', function($scope, $http, $location, $anchorScroll){
 
 });
 
+app.controller('bannerCtrl', function($scope, $http, $location, $anchorScroll){
+
+    //hide the success message after some time
+    $timeout(function() {
+        $scope.hideDeleteMsg = true;
+    }, 3000);
+
+    // function to submit the form after all validation has occurred
+    $scope.submitForm = function() {
+        // check to make sure the form is completely valid
+        if ($scope.bannerForm.$valid) {
+
+        }
+    };
+
+});
+
 app.controller('modelCtrl', function($scope, $mdDialog, $mdMedia, $http, $window, $timeout) {
         $scope.status = '  ';
         $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
