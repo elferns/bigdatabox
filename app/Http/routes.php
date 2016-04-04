@@ -29,4 +29,4 @@ Route::get('/api/page_details/{id}', 'admin\PageController@api_page');
 /** Routes for banners */
 Route::get('/admin/banners', 'admin\BannerController@index');
 Route::post('/admin/banners/store', 'admin\BannerController@store');
-
+Route::get('/admin/banners/list', 'admin\BannerController@api_list');

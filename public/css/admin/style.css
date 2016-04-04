@@ -177,3 +177,8 @@ body {
 .fa-pencil {
     cursor: pointer;
 }
+
+.sort-arrows, .sort-arrows:hover, .sort-arrows:visited {
+    color: #fff;
+    text-decoration: none;
+}

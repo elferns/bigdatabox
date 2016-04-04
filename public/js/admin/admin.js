@@ -19,21 +19,64 @@ app.controller('pageCtrl', function($scope, $http, $location, $anchorScroll){
 
 });
 
-app.controller('bannerCtrl', function($scope, $http, $location, $anchorScroll){
+app.controller('bannerCtrl', function($scope, $http, $location, $anchorScroll, $timeout){
 
     //hide the success message after some time
     $timeout(function() {
         $scope.hideDeleteMsg = true;
     }, 3000);
 
-    // function to submit the form after all validation has occurred
-    $scope.submitForm = function() {
-        // check to make sure the form is completely valid
-        if ($scope.bannerForm.$valid) {
+});
+
+app.directive('validFile', function(){
+    return {
+        restrict: 'EA',
+        require: 'ngModel',
+        link: function(scope, elem, attrs, ngModel){
+            var file_info = "";
+
+            elem.on('change', function(event){
+                var file_info = event.target.files;
+
+                scope.$apply(function () {
+                    ngModel.$render(file_info);
+                });
+            });
+
+            if (attrs.maxsize) {
+                var maxsize = parseInt(attrs.maxsize);
+                ngModel.$validators.maxsize = function(modelValue, viewValue) {
+                    var value = modelValue || viewValue;
+                    if(value) {
+                        if (value[0] && value[0].size && value[0].size > maxsize) {
+                            return false;
+                        }
+                    }
+                    return true;
+                };
+            }
+
+            if (attrs.extension) {
+                var validFormats = attrs.extension;
+                ngModel.$validators.extension = function(modelValue, viewValue) {
+                    var value = modelValue || viewValue;
+
+                    if(value) {
+                        var ext = value[0].type.substring(value[0].type.indexOf('/')+1);
+                        if (value[0] && value[0].type && validFormats.indexOf(ext) === -1) {
+                            return false;
+                        }
+                    }
+                    return true;
+                };
+            }
+
+            ngModel.$render = function (fileVal) {
+                ngModel.$setViewValue(fileVal);
+            };
 
         }
     };
-
 });
 
 app.controller('modelCtrl', function($scope, $mdDialog, $mdMedia, $http, $window, $timeout) {
@@ -116,4 +159,39 @@ app.controller('modelCtrl', function($scope, $mdDialog, $mdMedia, $http, $window
         $mdDialog.hide(answer);
     };
 }*/
+
+
+
+app.controller('listing', function($scope, $http){
+    $scope.moduleName = null;
+    $scope.listData = null;
+    $scope.listHead = null;
+
+    $scope.init = function ($moduleName) {
+        $scope.moduleName = $moduleName;
+
+        $http({
+            method: 'GET',
+            url: '/admin/'+$scope.moduleName+'/list'
+        }).then(function successCallback(response) {
+            $scope.listData = response.data.table_body;
+            $scope.listHead = response.data.table_head;
+            $scope.sortType     = response.data.table_sort.sortType; // set the default sort type
+            $scope.sortReverse  = response.data.table_sort.sortReverse;  // set the default sort order
+            $scope.links  = response.data.links;
+            $scope.searchFil   = '';
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+    };
+
+    $scope.order = function($sortType){
+
+        $scope.sortType = $sortType;
+        $scope.sortReverse = !$scope.sortReverse;
+    };
+});
+
+
 

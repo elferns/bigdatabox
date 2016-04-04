@@ -11,7 +11,7 @@
         </div>
 
         {!! Form::open(['url' => '/admin/banners/store', 'autocomplete' => 'off',
-                        'ng-submit' => 'submitForm(bannerForm.$valid)',
+                        'ng-submit' => 'submit(bannerForm.$valid)',
                         'name' => 'bannerForm', 'files' => true, 'novalidate']) !!}
         <div class="row">
             <div class="col-sm-5">
@@ -34,6 +34,27 @@
                         The name field is required.</p>
                 </div>
 
+                <div class="form-group{!! ($errors->has('image_name')) ? ' has-error' : '' !!}"
+                     ng-class="{ 'has-error' : bannerForm.image_name.$invalid && !bannerForm.image_name.$pristine }">
+                    {!! Form::label('image_name', 'Image', ['class' => 'form-label']) !!}
+                    {!! Form::file('image_name', ['class' => 'form-control', 'valid-file',
+                                   'extension' => 'jpg,jpeg,png', 'maxsize' => '1000000', 'ng-model' => 'image_name',
+                                   'required']) !!}
+                    @if ($errors->has('image_name'))
+                        <div class="help-block">{!! $errors->first('image_name') !!}</div>
+                    @endif
+                    <p ng-show="bannerForm.image_name.$error.extension" class="help-block">The image must be
+                        a file of type: jpg,jpeg,png</p>
+                    <p ng-show="bannerForm.image_name.$error.maxsize" class="help-block">The image may not be
+                        greater than 1000 kilobytes</p>
+                </div>
+
+                <div class="form-group">
+                    {!! Form::hidden('ref', '', ['ng-value' => 'banner.ref']) !!}
+                </div>
+
+            </div>
+            <div class="col-sm-6 col-sm-offset-1">
                 <div class="form-group{!! ($errors->has('caption')) ? ' has-error' : '' !!}">
                     {!! Form::label('caption', 'Caption', ['class' => 'form-label']) !!}
                     {!! Form::textarea('caption', null, ['ng-model' => 'banner.caption', 'class' => 'form-control']) !!}
@@ -41,27 +62,21 @@
                         <div class="help-block">{!! $errors->first('caption') !!}</div>
                     @endif
                 </div>
+            </div>
 
-                <div class="form-group{!! ($errors->has('image_name')) ? ' has-error' : '' !!}">
-                    {!! Form::label('image_name', 'Image', ['class' => 'form-label']) !!}
-                    {!! Form::file('image_name', ['ng-model' => 'banner.image_name', 'class' => 'form-control']) !!}
-                    @if ($errors->has('image_name'))
-                        <div class="help-block">{!! $errors->first('image_name') !!}</div>
-                    @endif
+            <div class="row">
+                <div class="col-sm-11">
+                    <div class="form-group center-block">
+                        {!! Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-lg btn-primary
+                                          center-block save-btn', 'ng-disabled' => 'bannerForm.$invalid']) !!}
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    {!! Form::hidden('ref', '', ['ng-value' => 'banner.ref']) !!}
-                </div>
-
-                <div class="form-group center-block">
-                    {!! Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-lg btn-primary center-block save-btn',
-                                     'ng-disabled' => 'bannerForm.$invalid']) !!}
-                </div>
-
             </div>
         </div>
         {!! Form::close() !!}
 
+        <!--Banners Listing---->
+        @include('admin.layouts.list')
+        <!--Banners Listing---->
     </div>
 @endsection

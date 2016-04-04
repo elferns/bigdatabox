@@ -24,7 +24,7 @@ class BannerController extends Controller
      */
     public function index()
     {
-        return view('admin.banner');
+        return view('admin.banner', [ 'moduleName' => 'banners' ]);
     }
 
     /**
@@ -51,5 +51,23 @@ class BannerController extends Controller
         $msg_type = "Added";
 
         return redirect('/admin/banners')->with('success_banners', $msg_type.' successfully');
+    }
+
+    public function api_list()
+    {
+        $tab_links = DB::table('pages')->paginate(2);
+        dd($tab_links->links());
+        //head
+        $table_head = [ 'name' => [ 'label' => 'Name', 'sort' => true, 'name' => 'name' ],
+                        'caption' => [ 'label' => 'Caption', 'sort' => true, 'name' => 'caption' ],
+                        'image' => [ 'label' => 'Image', 'sort' => false, 'name' => 'image' ],
+                        'actions' => [ 'label' => 'Actions', 'sort' => false, 'name' => 'actions' ] ];
+
+        //get records
+        $table_body = DB::table('banners')->get();
+        //set default sort
+        $table_sort = [ 'sortType' => 'name', 'sortReverse' => true ];
+        return response()->json([ 'table_body' => $table_body, 'table_head' => $table_head,
+                                  'table_sort' => $table_sort, 'links' => $tab_links ]);
     }
 }
