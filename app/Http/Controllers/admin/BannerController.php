@@ -7,10 +7,14 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
-use DB;
+use App\Banner;
+use DB, Session, Crypt, Hash, File;
 
 class BannerController extends Controller
 {
+
+    protected $image_path = "uploads/banners/";
+
     /**
      * BannerController constructor.
      */
@@ -33,41 +37,91 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'image_name' => 'required|mimes:jpeg,png,jpg,JPG|max:1000'
-        ]);
+        if ($request->input('ref') != null) {
+            $id = Crypt::decrypt($request->input('ref'));
+        }
 
-        $destination_path = "uploads/banners";
-        $file_ext = $request->file('image_name')->getClientOriginalExtension();
-        $file_name = Carbon::now()->getTimestamp().".".$file_ext;
-        $request->file('image_name')->move($destination_path, $file_name);
+        if($request->file('image_name') != null) {
+            $this->validate($request, [
+                'name' => 'required',
+                'image_name' => 'required|mimes:jpeg,png,jpg,JPG|max:1000'
+            ]);
 
-        DB::table('banners')->insert([
-            'name' => $request->input('name'),
-            'caption' => $request->input('caption'),
-            'image_name' => $file_name
-        ]);
-        $msg_type = "Added";
+            $file_ext = $request->file('image_name')->getClientOriginalExtension();
+            $file_name = Carbon::now()->getTimestamp().".".$file_ext;
+            $request->file('image_name')->move($this->image_path, $file_name);
+
+        } else {
+            $this->validate($request, [
+                'name' => 'required'
+            ]);
+        }
+
+        if ($request->input('ref') != null) {
+            $banner = Banner::find($id);
+            $banner->name = $request->input('name');
+            $banner->caption = $request->input('caption');
+            if($request->file('image_name') != null) {
+                File::delete($this->image_path.$banner->image_name);
+                $banner->image_name = $file_name;
+            }
+            $banner->save();
+            $msg_type = "Updated";
+        } else {
+            DB::table('banners')->insert([
+                'name' => $request->input('name'),
+                'caption' => $request->input('caption'),
+                'image_name' => $file_name
+            ]);
+            $msg_type = "Added";
+        }
 
         return redirect('/admin/banners')->with('success_banners', $msg_type.' successfully');
     }
 
+    /**
+     * @purpose To send the list data
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function api_list()
     {
-        $tab_links = DB::table('pages')->paginate(2);
-        dd($tab_links->links());
         //head
-        $table_head = [ 'name' => [ 'label' => 'Name', 'sort' => true, 'name' => 'name' ],
-                        'caption' => [ 'label' => 'Caption', 'sort' => true, 'name' => 'caption' ],
-                        'image' => [ 'label' => 'Image', 'sort' => false, 'name' => 'image' ],
-                        'actions' => [ 'label' => 'Actions', 'sort' => false, 'name' => 'actions' ] ];
+        $table_head = [ 'name' => [ 'label' => 'Name', 'sort' => true ],
+                        'caption' => [ 'label' => 'Caption', 'sort' => true ],
+                        'image' => [ 'label' => 'Image', 'sort' => false ],
+                        'actions' => [ 'label' => 'Actions', 'sort' => false ] ];
 
         //get records
-        $table_body = DB::table('banners')->get();
+        $table_body = DB::table('banners')->select('id', 'name', 'caption', 'image_name')
+                                          ->get();
         //set default sort
         $table_sort = [ 'sortType' => 'name', 'sortReverse' => true ];
+        //send the type if data that willbe displayed
+        $table_datatype = [ 'name' => 'text', 'caption' => 'text', 'image_name' => 'image'];
         return response()->json([ 'table_body' => $table_body, 'table_head' => $table_head,
-                                  'table_sort' => $table_sort, 'links' => $tab_links ]);
+                                  'table_sort' => $table_sort, 'table_datatype' => $table_datatype,
+                                  'image_path' => $this->image_path ]);
+    }
+
+    /**
+     * @purpose To delete banner
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function api_destroy($id)
+    {
+        $banner = Banner::find($id);
+        File::delete($this->image_path.$banner->image_name);
+        Banner::destroy($id);
+        Session::flash('successMessage', $banner->name.' deleted successfully');
+        return response()->json(['message' => 'Deleted successfully', 'name' => $banner->name]);
+    }
+
+    public function api_banner($id)
+    {
+        $bannerDetails = Banner::find($id);
+        $bannerDetails->image = '/'.$this->image_path.'/'.$bannerDetails->image_name;
+        $bannerDetails->ref = Crypt::encrypt($bannerDetails->id);
+        return response()->json($bannerDetails);
     }
 }

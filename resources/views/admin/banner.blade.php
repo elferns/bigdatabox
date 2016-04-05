@@ -38,8 +38,12 @@
                      ng-class="{ 'has-error' : bannerForm.image_name.$invalid && !bannerForm.image_name.$pristine }">
                     {!! Form::label('image_name', 'Image', ['class' => 'form-label']) !!}
                     {!! Form::file('image_name', ['class' => 'form-control', 'valid-file',
-                                   'extension' => 'jpg,jpeg,png', 'maxsize' => '1000000', 'ng-model' => 'image_name',
-                                   'required']) !!}
+                                   'extension' => 'jpg,jpeg,png', 'maxsize' => '1000000',
+                                   'ng-model' => 'image_name', 'required']) !!}
+                    <div class="spacer img-cover" ng-if="imageDisplay">
+                        <!--<i class="fa fa-times closeBtn"></i>--->
+                        <img ng-src="<% imageDisplay %>" width="200" class="img-thumbnail"/>
+                    </div>
                     @if ($errors->has('image_name'))
                         <div class="help-block">{!! $errors->first('image_name') !!}</div>
                     @endif

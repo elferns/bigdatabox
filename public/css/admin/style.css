@@ -182,3 +182,20 @@ body {
     color: #fff;
     text-decoration: none;
 }
+
+.spacer {
+    margin-top: 10px;
+}
+
+.closeBtn {
+    top: 0px;
+    right: 36px;
+    padding: 0px 4px;
+    position: absolute;
+    cursor: pointer;
+}
+
+.img-cover {
+    position: relative;
+    width: 50%;
+}

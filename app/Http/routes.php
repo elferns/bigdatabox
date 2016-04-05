@@ -23,10 +23,12 @@ Route::get('/admin/dashboard', 'admin\HomeController@index');
 /** Routes for pages */
 Route::get('/admin/pages', 'admin\PageController@index');
 Route::post('/admin/pages/store', 'admin\PageController@store');
-Route::delete('/api/destroy/{id}', 'admin\PageController@api_destroy');
+Route::delete('/api/pages/destroy/{id}', 'admin\PageController@api_destroy');
 Route::get('/api/page_details/{id}', 'admin\PageController@api_page');
 
 /** Routes for banners */
 Route::get('/admin/banners', 'admin\BannerController@index');
 Route::post('/admin/banners/store', 'admin\BannerController@store');
 Route::get('/admin/banners/list', 'admin\BannerController@api_list');
+Route::delete('/api/banners/destroy/{id}', 'admin\BannerController@api_destroy');
+Route::get('/api/banner_details/{id}', 'admin\BannerController@api_banner');

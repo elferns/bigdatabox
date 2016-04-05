@@ -49,6 +49,9 @@
 <!-- Angular Material Library -->
 <script src="/js/angularjs/angular-material.min.js"></script>
 
+<!-- Angular third party library for pagination-->
+<script src="/js/angularjs/dirPagination.js"></script>
+
 <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
 <script src="/js/admin/admin.js"></script>
 
