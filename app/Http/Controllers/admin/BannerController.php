@@ -20,7 +20,7 @@ class BannerController extends Controller
      */
     public function __construct()
     {
-        //TODO
+        $this->middleware('auth');
     }
 
     /**
@@ -117,6 +117,10 @@ class BannerController extends Controller
         return response()->json(['message' => 'Deleted successfully', 'name' => $banner->name]);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function api_banner($id)
     {
         $bannerDetails = Banner::find($id);
