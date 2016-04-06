@@ -33,3 +33,10 @@ Route::post('/admin/banners/store', 'admin\BannerController@store');
 Route::get('/admin/banners/list', 'admin\BannerController@api_list');
 Route::delete('/api/banners/destroy/{id}', 'admin\BannerController@api_destroy');
 Route::get('/api/banner_details/{id}', 'admin\BannerController@api_banner');
+
+/** Routes for categories */
+Route::get('/admin/categories', 'admin\CategoryController@index');
+Route::post('/admin/categories/store', 'admin\CategoryController@store');
+Route::get('/admin/categories/list', 'admin\CategoryController@api_list');
+Route::delete('/api/categories/destroy/{id}', 'admin\CategoryController@api_destroy');
+Route::get('/api/category_details/{id}', 'admin\CategoryController@api_category');

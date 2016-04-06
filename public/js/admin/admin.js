@@ -39,6 +39,20 @@ app.controller('bannerCtrl', function($scope, $http, $location, $anchorScroll, $
 
 });
 
+app.controller('categoryCtrl', function($scope, $http, $location, $anchorScroll, $timeout){
+
+    $scope.showEditPage = function ($catId){
+        $http.get('/api/category_details/'+$catId).then(function (response) {
+            $scope.category = response.data;
+            $anchorScroll();
+            //console.log('all is good', response.data);
+        }, function (error) {
+            //console.log('an error occurred', error.data);
+        });
+    }
+
+});
+
 app.directive('validFile', function(){
     return {
         restrict: 'EA',
@@ -93,22 +107,6 @@ app.controller('modelCtrl', function($scope, $mdDialog, $mdMedia, $http, $window
         $scope.status = '  ';
         $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
-        /*$scope.showAlert = function(ev) {
-            // Appending dialog to document.body to cover sidenav in docs app
-            // Modal dialogs should fully cover application
-            // to prevent interaction outside of dialog
-            $mdDialog.show(
-                $mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#popupContainer')))
-                    .clickOutsideToClose(true)
-                    .title('This is an alert title')
-                    .textContent('You can specify some description text in here.')
-                    .ariaLabel('Alert Dialog Demo')
-                    .ok('Got it!')
-                    .targetEvent(ev)
-            );
-        };*/
-
         $scope.showDeleteConfirm = function(ev, moduleName, delId) {
             // Appending dialog to document.body to cover sidenav in docs app
             var confirm = $mdDialog.confirm()
@@ -129,41 +127,7 @@ app.controller('modelCtrl', function($scope, $mdDialog, $mdMedia, $http, $window
             });
         };
 
-        /*$scope.showAdvanced = function(ev) {
-            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
-            $mdDialog.show({
-                    controller: DialogController,
-                    templateUrl: 'dialog1.tmpl.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose:true,
-                    fullscreen: useFullScreen
-                })
-                .then(function(answer) {
-                    $scope.status = 'You said the information was "' + answer + '".';
-                }, function() {
-                    $scope.status = 'You cancelled the dialog.';
-                });
-            $scope.$watch(function() {
-                return $mdMedia('xs') || $mdMedia('sm');
-            }, function(wantsFullScreen) {
-                $scope.customFullscreen = (wantsFullScreen === true);
-            });
-        };*/
-
     });
-/*function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
-        $mdDialog.hide();
-    };
-    $scope.cancel = function() {
-        $mdDialog.cancel();
-    };
-    $scope.answer = function(answer) {
-        $mdDialog.hide(answer);
-    };
-}*/
-
 
 
 app.controller('listing', function($scope, $http, $timeout, $sce){
