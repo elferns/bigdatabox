@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="wrapper">
-        <li><a href="{{ url('/register') }}">Register</a></li>
 
         {!! Form::open(['url' => '/login', 'class' => 'form-signin', 'name' => 'loginForm']) !!}
             <h2 class="form-signin-heading">Please login</h2>
