@@ -34,6 +34,8 @@
                         <span ng-switch-when="image">
                             <img ng-if="data[dkey] !== ''" ng-src="/<% imagePath %><% data[dkey] %>" width="200" class="img-thumbnail"/>
                         </span>
+                        <span ng-switch-when="html" ng-bind-html="$sce.trustAsHtml(data[dkey])">
+                        </span>
                     </td>
                     <td>
                         <div class="list-dcenter" ng-controller="modelCtrl">

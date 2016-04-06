@@ -26,8 +26,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        $pages = DB::table('pages')->paginate(2);
-        return view('admin.page', ['pages' => $pages]);
+        return view('admin.page', ['moduleName' => 'pages']);
     }
 
     /**
@@ -54,7 +53,6 @@ class PageController extends Controller
             $page = Page::find($id);
             $page->name = $request->input('name');
             $page->title = $request->input('title');
-            $page->slug = $request->input('slug');
             $page->content = $request->input('content');
             $page->status = $request->input('status');
             $page->seo_keywords = $request->input('seo_keywords');
@@ -77,6 +75,33 @@ class PageController extends Controller
             $msg_type = "Added";
         }
         return redirect('/admin/pages')->with('success_pages', $msg_type.' successfully');
+    }
+
+    /**
+     * @purpose To send the list data
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function api_list()
+    {
+        //head
+        $table_head = [ 'name' => [ 'label' => 'Name', 'sort' => true ],
+                        'title' => [ 'label' => 'Title', 'sort' => true ],
+                        'slug' => [ 'label' => 'Slug', 'sort' => true ],
+                        'status' => [ 'label' => 'Status', 'sort' => true ],
+                        'actions' => [ 'label' => 'Actions', 'sort' => false ] ];
+
+        //get records
+        $table_body = DB::table('pages')
+                      ->select('id', 'name', 'title', 'slug',
+                                DB::raw('if(status=1,"<i class=\"fa fa-check\"></i>" ,"<i class=\"fa fa-times\"></i>")
+                                as status'))
+                                ->get();
+        //set default sort
+        $table_sort = [ 'sortType' => 'name', 'sortReverse' => true ];
+        //send the type if data that willbe displayed
+        $table_datatype = [ 'name' => 'text', 'title' => 'text', 'slug' => 'text', 'status' => 'html'];
+        return response()->json([ 'table_body' => $table_body, 'table_head' => $table_head,
+            'table_sort' => $table_sort, 'table_datatype' => $table_datatype ]);
     }
 
     /**

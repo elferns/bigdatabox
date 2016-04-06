@@ -25,6 +25,7 @@ Route::get('/admin/pages', 'admin\PageController@index');
 Route::post('/admin/pages/store', 'admin\PageController@store');
 Route::delete('/api/pages/destroy/{id}', 'admin\PageController@api_destroy');
 Route::get('/api/page_details/{id}', 'admin\PageController@api_page');
+Route::get('/admin/pages/list', 'admin\PageController@api_list');
 
 /** Routes for banners */
 Route::get('/admin/banners', 'admin\BannerController@index');

@@ -166,11 +166,12 @@ app.controller('modelCtrl', function($scope, $mdDialog, $mdMedia, $http, $window
 
 
 
-app.controller('listing', function($scope, $http, $timeout){
+app.controller('listing', function($scope, $http, $timeout, $sce){
     $scope.moduleName = null;
     $scope.listData = null;
     $scope.listHead = null;
     $scope.dataType = null;
+    $scope.$sce = $sce;
 
     //hide the success message after some time
     $timeout(function() {

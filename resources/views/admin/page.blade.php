@@ -77,45 +77,7 @@
     {!! Form::close() !!}
 
     <!--Pages Listing---->
-    <div class="container-fluid" ng-controller="modelCtrl">
-        @if(Session::has('successMessage'))
-            <div class="alert alert-success" ng-hide="hideDeleteMsg">
-                <strong>{{ Session::get('successMessage') }}</strong>
-            </div>
-        @endif
-        @if ( is_array($pages) )
-        <table class="table table-bordered table-striped list-dtable">
-            <thead>
-                <tr>
-                    <td>Name</td>
-                    <td>Title</td>
-                    <td>Slug</td>
-                    <td>Status</td>
-                    <td>Actions</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($pages as $page)
-                <tr>
-                    <td>{!! $page->name !!}</td>
-                    <td>{!! $page->title !!}</td>
-                    <td>{!! $page->slug !!}</td>
-                    <td>{!! $page->status !!}</td>
-                    <td>
-                        <div class="list-dcenter">
-                            <i class="fa fa-trash" ng-click="showDeleteConfirm($event, 'page', {!! $page->id !!})"></i>
-                            <i class="fa fa-pencil" ng-click="showEditPage({!! $page->id !!})"></i>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        @endif
-        <div>
-            {!! $pages->links() !!}
-        </div>
-    </div>
-     <!--Pages Listing---->
+    @include('admin.layouts.list')
+    <!--Pages Listing---->
     </div>
 @endsection
