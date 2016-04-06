@@ -17,7 +17,7 @@ class PageController extends Controller
      */
     public function __construct()
     {
-        //TODO
+        $this->middleware('auth');
     }
 
     /**
