@@ -53,6 +53,26 @@ app.controller('categoryCtrl', function($scope, $http, $location, $anchorScroll,
 
 });
 
+app.controller('navigationCtrl', function($scope, $http, $location, $anchorScroll, $timeout){
+    $timeout(function() {
+        $scope.hideSuccessMsg = true;
+    }, 3000);
+
+    $scope.showEditPage = function ($navId){
+        $http.get('/api/navigation_details/'+$navId).then(function (response) {
+            console.log(response.data.page_id);
+
+            $scope.navigation = response.data;
+            $scope.navigation.page_id = response.data.page_id;
+            $anchorScroll();
+            //console.log('all is good', response.data);
+        }, function (error) {
+            //console.log('an error occurred', error.data);
+        });
+    }
+
+});
+
 app.directive('validFile', function(){
     return {
         restrict: 'EA',
@@ -116,8 +136,6 @@ app.controller('modelCtrl', function($scope, $mdDialog, $mdMedia, $http, $window
                 .ok('Ok')
                 .cancel('Cancel');
             $mdDialog.show(confirm).then(function() {
-                console.log(moduleName);
-                console.log(delId);
                 $http.delete('/api/'+moduleName+'/destroy/'+delId).then(function (response) {
                     $window.location.reload();
                     //console.log('all is good', response.data);
