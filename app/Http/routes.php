@@ -40,3 +40,10 @@ Route::post('/admin/categories/store', 'admin\CategoryController@store');
 Route::get('/admin/categories/list', 'admin\CategoryController@api_list');
 Route::delete('/api/categories/destroy/{id}', 'admin\CategoryController@api_destroy');
 Route::get('/api/category_details/{id}', 'admin\CategoryController@api_category');
+
+/** Routes for Navigation */
+Route::get('/admin/navigation', 'admin\NavigationController@index');
+Route::post('/admin/navigation/store', 'admin\NavigationController@store');
+Route::get('/admin/navigation/list', 'admin\NavigationController@api_list');
+Route::delete('/api/navigation/destroy/{id}', 'admin\NavigationController@api_destroy');
+Route::get('/api/navigation_details/{id}', 'admin\NavigationController@api_navigation');
