@@ -60,10 +60,7 @@ app.controller('navigationCtrl', function($scope, $http, $location, $anchorScrol
 
     $scope.showEditPage = function ($navId){
         $http.get('/api/navigation_details/'+$navId).then(function (response) {
-            console.log(response.data.page_id);
-
             $scope.navigation = response.data;
-            $scope.navigation.page_id = response.data.page_id;
             $anchorScroll();
             //console.log('all is good', response.data);
         }, function (error) {

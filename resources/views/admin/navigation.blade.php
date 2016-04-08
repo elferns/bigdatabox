@@ -36,14 +36,13 @@
 
                 <div class="form-group">
                     {!! Form::label('page', 'Page', ['class' => 'form-label']) !!}
-                    {!! Form::selectOptions('page_id', $pages, 3, [
-                                            'class' => 'form-control', 'ng-model' => 'navigation.page_id'],
-                                            ['ng-selected' => '']) !!}
+                    {!! Form::selectAngular('page_id', $pages, null, ['placeholder' => 'Select page',
+                                            'class' => 'form-control', 'ng-model' => 'navigation.page_id']) !!}
                 </div>
 
                 <div class="form-group">
                     {!! Form::label('order_no', 'Order', ['class' => 'form-label']) !!}
-                    {!! Form::select('order_no', [1,2,3,4,5,6,7,8,9,10], null, ['placeholder' => 'Select order',
+                    {!! Form::selectAngular('order_no', $order, null, ['placeholder' => 'Select order',
                                      'class' => 'form-control', 'ng-model' => 'navigation.order_no']) !!}
                 </div>
 

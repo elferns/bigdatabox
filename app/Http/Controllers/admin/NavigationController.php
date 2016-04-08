@@ -26,7 +26,8 @@ class NavigationController extends Controller
     public function index()
     {
         $pages = Page::where('status', 1)->lists('name', 'id');
-        return view('admin.navigation', ['moduleName' => 'navigation', 'pages' => $pages]);
+        $order = array_combine(range(1,10),range(1,10));
+        return view('admin.navigation', ['moduleName' => 'navigation', 'pages' => $pages, 'order' => $order]);
     }
 
     /**
@@ -42,7 +43,7 @@ class NavigationController extends Controller
         }
 
         $this->validate($request, [
-                'name' => 'required|unique:navigation,name'.$rule_id
+                'name' => 'required|unique:navigations,name'.$rule_id
             ]
         );
 

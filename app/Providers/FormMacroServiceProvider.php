@@ -14,21 +14,25 @@ class FormMacroServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Form::macro('selectOptions', function($name, $options = [], $selected = null, $attributes = [], $disabled = []){
+        Form::macro('selectAngular', function($name, $options = [], $selected = null, $sel_attr = []){
 
-            $html = '<select name="' . $name . '"';
-            foreach ($attributes as $attribute => $value)
+            $angular_init = ($selected != null) ? "ng-init=\"" . $sel_attr['ng-model'] . "='".$selected."'\"" : "";
+
+            $html = '<select name="' . $name . '" ' . $angular_init;
+            foreach ($sel_attr as $sel_key => $value)
             {
-                $html .= ' ' . $attribute . '="' . $value . '"';
+                $html .= ' ' . $sel_key .' ="' . $value . '"';
             }
             $html .= '>';
 
-            foreach ($options as $value => $text)
+            if(isset($sel_attr['placeholder']))
+                $html .= "<option ng-selected=\"" . $sel_attr['ng-model'] . " == ''\"
+                          value='' >" .$sel_attr['placeholder']. "</option>";
+
+            foreach ($options as $option_key => $value)
             {
-                $html .= '<option value="' . $value . '"' .
-                    ($value == $selected ? ' selected="selected"' : '') .
-                    (in_array($value, $disabled) ? ' disabled="disabled"' : '') . '>' .
-                    $text . '</option>';
+                $html .= "<option ng-selected=\"" . $sel_attr['ng-model'] . " == '" . $option_key . "'\"
+                          value='" . $option_key . "'>" . $value ."</option>";
             }
 
             $html .= '</select>';
