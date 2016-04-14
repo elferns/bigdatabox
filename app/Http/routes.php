@@ -40,3 +40,10 @@ Route::post('/admin/categories/store', 'admin\CategoryController@store');
 Route::get('/admin/categories/list', 'admin\CategoryController@api_list');
 Route::delete('/api/categories/destroy/{id}', 'admin\CategoryController@api_destroy');
 Route::get('/api/category_details/{id}', 'admin\CategoryController@api_category');
+
+/** Routes for portfolio **/
+Route::get('/admin/portfolio', 'admin\PortfolioController@index');
+Route::post('/admin/portfolio/store', 'admin\PortfolioController@store');
+Route::get('/admin/portfolio/list', 'admin\PortfolioController@api_list');
+Route::delete('/api/portfolio/destroy/{id}', 'admin\PortfolioController@api_destroy');
+Route::get('/api/portfolio_details/{id}', 'admin\PortfolioController@api_portfolio');

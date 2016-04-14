@@ -53,6 +53,20 @@ app.controller('categoryCtrl', function($scope, $http, $location, $anchorScroll,
 
 });
 
+app.controller('portfolioCtrl', function($scope, $http, $location, $anchorScroll, $timeout){
+
+    $scope.showEditPage = function ($catId){
+        $http.get('/api/portfolio_details/'+$catId).then(function (response) {
+            $scope.portfolio = response.data;
+            $anchorScroll();
+            //console.log('all is good', response.data);
+        }, function (error) {
+            //console.log('an error occurred', error.data);
+        });
+    }
+
+});
+
 app.directive('validFile', function(){
     return {
         restrict: 'EA',
